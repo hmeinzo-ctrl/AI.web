@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Glass Chat</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* CONTAINER */
+.chat-container {
+  width: 360px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(0,255,255,0.15);
+  overflow: hidden;
+}
+
+/* HEADER */
+.header {
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  background: rgba(0,0,0,0.3);
+}
+
+/* CHAT AREA */
+.chat-area {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* BUBBLE */
+.bubble {
+  max-width: 75%;
+  padding: 10px;
+  margin: 6px;
+  border-radius: 12px;
+  animation: fadeIn 0.3s ease;
+  color: white;
+}
+
+.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+.ai {
+  align-self: flex-start;
+  background: rgba(255,255,255,0.1);
+}
+
+/* INPUT */
+.input-area {
+  display: flex;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+}
+
+button {
+  padding: 12px;
+  border: none;
+  background: cyan;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #00aaff;
+}
+
+/* ANIMASI */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="chat-container">
+  <div class="header">AI GLASS 🤖</div>
+
+  <div class="chat-area" id="chat"></div>
+
+  <div class="input-area">
+    <input id="input" placeholder="Tanya apa aja..."
+    onkeypress="if(event.key==='Enter') kirim()">
+    <button onclick="kirim()">➤</button>
+  </div>
+</div>
+
+<script>
+function tambahBubble(text, tipe) {
+  let chat = document.getElementById("chat");
+  let div = document.createElement("div");
+  div.className = "bubble " + tipe;
+  div.innerText = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function kirim() {
+  let inputEl = document.getElementById("input");
+  let text = inputEl.value.trim();
+  if (!text) return;
+
+  tambahBubble(text, "user");
+
+  let jawaban = otak(text.toLowerCase());
+
+  setTimeout(() => {
+    tambahBubble(jawaban, "ai");
+  }, 400);
+
+  inputEl.value = "";
+}
+
+/* OTAK AI */
+function otak(text) {
+
+  if (text.includes("halo") || text.includes("hai"))
+    return "Halo juga 😄";
+
+  if (text.includes("siapa") && text.includes("kamu"))
+    return "Aku AI glass buatan kamu 😎";
+
+  if (text.includes("nama"))
+    return "Namaku AI Glass";
+
+  if (text.includes("apa kabar"))
+    return "Aku baik! Kamu gimana?";
+
+  if (text.includes("terima kasih") || text.includes("makasih"))
+    return "Sama-sama 🙌";
+
+  if (text.includes("kamu pintar"))
+    return "Masih belajar, tapi makin jago 😏";
+
+  if (text.includes("apa itu ai"))
+    return "AI adalah kecerdasan buatan yang bisa meniru cara berpikir manusia 🤖";
+
+  if (text.includes("2+2"))
+    return "2 + 2 = 4";
+
+  return "Hmm... aku belum terlalu ngerti, coba tanya lain 😅";
+}
+</script>
+
+</body>
+</html>
